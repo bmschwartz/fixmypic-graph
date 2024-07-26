@@ -1,0 +1,52 @@
+type PictureRequest @entity(immutable: true) {
+  id: ID!
+  title: String!
+  description: String!
+  imageId: String!
+  budget: BigInt!
+  creator: Bytes!
+  createdAt: BigInt!
+  expiresAt: BigInt!
+  comments: [RequestComment!]! @derivedFrom(field: "request")
+  submissions: [RequestSubmission!]! @derivedFrom(field: "request")
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type RequestComment @entity(immutable: true) {
+  id: ID!
+  request: PictureRequest!
+  commenter: Bytes!
+  text: String!
+  createdAt: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type RequestSubmission @entity(immutable: true) {
+  id: ID!
+  request: PictureRequest!
+  submitter: Bytes!
+  price: BigInt!
+  description: String!
+  createdAt: BigInt!
+  freeImageId: String!
+  encryptedImageId: String!
+  watermarkedImageId: String!
+  purchases: [SubmissionPurchase!]! @derivedFrom(field: "submission")
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type SubmissionPurchase @entity(immutable: true) {
+  id: ID!
+  submission: RequestSubmission!
+  purchaser: Bytes!
+  purchaseDate: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}

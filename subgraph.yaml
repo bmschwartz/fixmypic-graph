@@ -1,0 +1,60 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: FixMyPicFactory
+    network: zksync-era-testnet
+    source:
+      address: "0x26b368C3Ed16313eBd6660b72d8e4439a697Cb0B"
+      abi: FixMyPicFactory
+      startBlock: 0
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - RequestComment
+        - PictureRequest
+        - RequestSubmission
+        - SubmissionPurchase
+      abis:
+        - name: FixMyPicFactory
+          file: ./abis/FixMyPicFactory.json
+        - name: PictureRequest
+          file: ./abis/PictureRequest.json
+        - name: RequestSubmission
+          file: ./abis/RequestSubmission.json
+        - name: RequestComment
+          file: ./abis/RequestComment.json
+      eventHandlers:
+        - event: RequestCommentCreated(indexed address,indexed address,string,indexed address,uint256)
+          handler: handleRequestCommentCreated
+        - event: PictureRequestCreated(indexed address,string,string,string,uint256,indexed address,uint256,uint256)
+          handler: handlePictureRequestCreated
+        - event: RequestSubmissionCreated(indexed address,indexed address,string,uint256,string,string,string,indexed address,uint256)
+          handler: handleRequestSubmissionCreated
+      file: ./src/mappings/fixMyPicFactoryMapper.ts
+
+templates:
+  - name: RequestSubmission
+    kind: ethereum/contract
+    network: zksync-era-testnet
+    source:
+      abi: RequestSubmission
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - RequestSubmission
+        - SubmissionPurchase
+      abis:
+        - name: RequestSubmission
+          file: ./abis/RequestSubmission.json
+      eventHandlers:
+        - event: SubmissionPurchased(indexed address,indexed address,uint256)
+          handler: handleSubmissionPurchased
+      file: ./src/mappings/requestSubmissionMapper.ts
