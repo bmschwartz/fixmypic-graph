@@ -13,13 +13,10 @@ import {
 export function handleRequestCommentCreated(
   event: RequestCommentCreated
 ): void {
-  let comment = new RequestComment(
-    event.params.request.toHex() +
-      "-" +
-      event.params.commenter.toHex() +
-      "-" +
-      event.block.timestamp.toString()
-  );
+  const commentAddress = event.params.comment;
+
+  let comment = new RequestComment(commentAddress.toHex());
+  comment.address = commentAddress;
   comment.request = event.params.request.toHex();
   comment.commenter = event.params.commenter;
   comment.text = event.params.text;
@@ -34,9 +31,10 @@ export function handleRequestCommentCreated(
 export function handlePictureRequestCreated(
   event: PictureRequestCreated
 ): void {
-  let request = new PictureRequest(
-    event.params.creator.toHex() + "-" + event.params.createdAt.toString()
-  );
+  const requestAddress = event.params.request;
+
+  let request = new PictureRequest(requestAddress.toHex());
+  request.address = requestAddress;
   request.title = event.params.title;
   request.description = event.params.description;
   request.imageId = event.params.imageId;
@@ -54,13 +52,10 @@ export function handlePictureRequestCreated(
 export function handleRequestSubmissionCreated(
   event: RequestSubmissionCreated
 ): void {
-  let submission = new RequestSubmission(
-    event.params.request.toHex() +
-      "-" +
-      event.params.submitter.toHex() +
-      "-" +
-      event.block.timestamp.toString()
-  );
+  const submissionAddress = event.params.submission;
+
+  let submission = new RequestSubmission(submissionAddress.toHex());
+  submission.address = submissionAddress;
   submission.request = event.params.request.toHex();
   submission.submitter = event.params.submitter;
   submission.price = event.params.price;

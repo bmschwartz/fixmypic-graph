@@ -1,5 +1,6 @@
-type PictureRequest @entity(immutable: true) {
+type PictureRequest @entity {
   id: ID!
+  address: Bytes!
   title: String!
   description: String!
   imageId: String!
@@ -14,8 +15,9 @@ type PictureRequest @entity(immutable: true) {
   transactionHash: Bytes!
 }
 
-type RequestComment @entity(immutable: true) {
+type RequestComment @entity {
   id: ID!
+  address: Bytes!
   request: PictureRequest!
   commenter: Bytes!
   text: String!
@@ -25,8 +27,9 @@ type RequestComment @entity(immutable: true) {
   transactionHash: Bytes!
 }
 
-type RequestSubmission @entity(immutable: true) {
+type RequestSubmission @entity {
   id: ID!
+  address: Bytes!
   request: PictureRequest!
   submitter: Bytes!
   price: BigInt!
@@ -41,7 +44,7 @@ type RequestSubmission @entity(immutable: true) {
   transactionHash: Bytes!
 }
 
-type SubmissionPurchase @entity(immutable: true) {
+type SubmissionPurchase @entity {
   id: ID!
   submission: RequestSubmission!
   purchaser: Bytes!

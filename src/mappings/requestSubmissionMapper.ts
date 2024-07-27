@@ -2,11 +2,13 @@ import { SubmissionPurchased } from "../../generated/templates/RequestSubmission
 import { SubmissionPurchase } from "../../generated/schema";
 
 export function handleSubmissionPurchased(event: SubmissionPurchased): void {
-  let purchase = new SubmissionPurchase(
-    event.transaction.hash.toHex() + "-" + event.logIndex.toString()
-  );
-  purchase.submission = event.params.submission.toHex();
-  purchase.purchaser = event.params.purchaser;
+  const purchaser = event.params.purchaser;
+  const submission = event.params.submission;
+  const purchaseId = `${purchaser.toHex()}-${submission.toHex()}`;
+
+  let purchase = new SubmissionPurchase(purchaseId);
+  purchase.submission = submission.toHex();
+  purchase.purchaser = purchaser;
   purchase.purchaseDate = event.params.purchaseDate;
   purchase.blockNumber = event.block.number;
   purchase.blockTimestamp = event.block.timestamp;

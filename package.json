@@ -1,13 +1,13 @@
 {
-  "name": "fixmypic-dev",
+  "name": "fixmypic-graph",
   "license": "UNLICENSED",
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.studio.thegraph.com/deploy/ fixmypic-dev",
-    "create-local": "graph create --node http://localhost:8020/ fixmypic-dev",
-    "remove-local": "graph remove --node http://localhost:8020/ fixmypic-dev",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 fixmypic-dev",
+    "deploy": "graph deploy --node https://api.studio.thegraph.com/deploy/ fixmypic-graph",
+    "create-local": "graph create --node http://localhost:8020/ fixmypic-graph",
+    "remove-local": "graph remove --node http://localhost:8020/ fixmypic-graph",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 fixmypic-graph",
     "test": "graph test"
   },
   "dependencies": {
