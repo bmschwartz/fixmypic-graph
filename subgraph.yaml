@@ -8,7 +8,7 @@ dataSources:
     name: FixMyPicFactory
     network: zksync-era-testnet
     source:
-      address: "0xb76eD02Dea1ba444609602BE5D587c4bFfd67153"
+      address: "0x094499Df5ee555fFc33aF07862e43c90E6FEe501"
       abi: FixMyPicFactory
       startBlock: 0
     mapping:
