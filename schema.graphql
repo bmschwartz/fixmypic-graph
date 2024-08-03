@@ -47,6 +47,7 @@ type RequestSubmission @entity {
 type SubmissionPurchase @entity {
   id: ID!
   submission: RequestSubmission!
+  price: BigInt!
   purchaser: Bytes!
   purchaseDate: BigInt!
   blockNumber: BigInt!
