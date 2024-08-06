@@ -1,7 +1,7 @@
 {
   "zksync-era-testnet": {
     "FixMyPicFactory": {
-      "address": "0xb76eD02Dea1ba444609602BE5D587c4bFfd67153",
+      "address": "0xB9D6120056a5FbbBEDE2016CA30A41c2A43D5aA9",
       "startBlock": 0
     }
   }
