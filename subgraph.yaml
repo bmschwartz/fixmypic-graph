@@ -4,17 +4,18 @@ indexerHints:
 schema:
   file: ./schema.graphql
 dataSources:
-  - kind: ethereum
+  - kind: ethereum/contract
     name: FixMyPicFactory
     network: zksync-era-testnet
     source:
-      address: "0xb76eD02Dea1ba444609602BE5D587c4bFfd67153"
+      address: "0x0a67078A35745947A37A552174aFe724D8180c25"
       abi: FixMyPicFactory
       startBlock: 0
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
+      file: ./src/mappings/fixMyPicFactoryMapper.ts
       entities:
         - RequestComment
         - PictureRequest
@@ -25,10 +26,10 @@ dataSources:
           file: ./abis/FixMyPicFactory.json
         - name: PictureRequest
           file: ./abis/PictureRequest.json
-        - name: RequestSubmission
-          file: ./abis/RequestSubmission.json
         - name: RequestComment
           file: ./abis/RequestComment.json
+        - name: RequestSubmission
+          file: ./abis/RequestSubmission.json
       eventHandlers:
         - event: RequestCommentCreated(indexed address,indexed address,string,indexed address,uint256)
           handler: handleRequestCommentCreated
@@ -36,25 +37,5 @@ dataSources:
           handler: handlePictureRequestCreated
         - event: RequestSubmissionCreated(indexed address,indexed address,string,uint256,string,string,string,indexed address,uint256)
           handler: handleRequestSubmissionCreated
-      file: ./src/mappings/fixMyPicFactoryMapper.ts
-
-templates:
-  - name: RequestSubmission
-    kind: ethereum/contract
-    network: zksync-era-testnet
-    source:
-      abi: RequestSubmission
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.7
-      language: wasm/assemblyscript
-      entities:
-        - RequestSubmission
-        - SubmissionPurchase
-      abis:
-        - name: RequestSubmission
-          file: ./abis/RequestSubmission.json
-      eventHandlers:
         - event: SubmissionPurchased(indexed address,indexed address,uint256,uint256)
           handler: handleSubmissionPurchased
-      file: ./src/mappings/requestSubmissionMapper.ts

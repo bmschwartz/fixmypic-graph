@@ -4,11 +4,13 @@ import {
   RequestCommentCreated,
   PictureRequestCreated,
   RequestSubmissionCreated,
+  SubmissionPurchased,
 } from "../../generated/FixMyPicFactory/FixMyPicFactory";
 import {
   RequestComment,
   PictureRequest,
   RequestSubmission,
+  SubmissionPurchase,
 } from "../../generated/schema";
 
 // Handle RequestCommentCreated event
@@ -83,4 +85,29 @@ export function handleRequestSubmissionCreated(
   ]);
 
   submission.save();
+}
+
+export function handleSubmissionPurchased(event: SubmissionPurchased): void {
+  const purchaser = event.params.purchaser;
+  const submission = event.params.submission;
+  const price = event.params.price;
+  const purchaseId = `${purchaser.toHex()}-${submission.toHex()}`;
+
+  log.info("handleSubmissionPurchased: {} {}", [
+    submission.toHex(),
+    price.toString(),
+  ]);
+
+  let purchase = new SubmissionPurchase(purchaseId);
+  purchase.submission = submission.toHex();
+  purchase.purchaser = purchaser;
+  purchase.price = price;
+  purchase.purchaseDate = event.params.purchaseDate;
+  purchase.blockNumber = event.block.number;
+  purchase.blockTimestamp = event.block.timestamp;
+  purchase.transactionHash = event.transaction.hash;
+
+  log.info("handleSubmissionPurchased: saving purchase {}", [purchase.id]);
+
+  purchase.save();
 }
