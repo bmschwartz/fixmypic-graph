@@ -1,3 +1,5 @@
+import { log } from "@graphprotocol/graph-ts";
+
 import {
   RequestCommentCreated,
   PictureRequestCreated,
@@ -31,6 +33,8 @@ export function handleRequestCommentCreated(
 export function handlePictureRequestCreated(
   event: PictureRequestCreated
 ): void {
+  log.info("handlePictureRequestCreated: {}", [event.params.title]);
+
   const requestAddress = event.params.request;
 
   let request = new PictureRequest(requestAddress.toHex());
@@ -45,6 +49,11 @@ export function handlePictureRequestCreated(
   request.blockNumber = event.block.number;
   request.blockTimestamp = event.block.timestamp;
   request.transactionHash = event.transaction.hash;
+
+  log.info("handlePictureRequestCreated: saving request {}", [
+    requestAddress.toHex(),
+  ]);
+
   request.save();
 }
 
@@ -52,6 +61,7 @@ export function handlePictureRequestCreated(
 export function handleRequestSubmissionCreated(
   event: RequestSubmissionCreated
 ): void {
+  log.info("handleRequestSubmissionCreated: {}", [event.params.description]);
   const submissionAddress = event.params.submission;
 
   let submission = new RequestSubmission(submissionAddress.toHex());
@@ -67,5 +77,10 @@ export function handleRequestSubmissionCreated(
   submission.blockNumber = event.block.number;
   submission.blockTimestamp = event.block.timestamp;
   submission.transactionHash = event.transaction.hash;
+
+  log.info("handleRequestSubmissionCreated: saving submission {}", [
+    submission.id,
+  ]);
+
   submission.save();
 }

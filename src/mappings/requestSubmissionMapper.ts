@@ -1,3 +1,5 @@
+import { log } from "@graphprotocol/graph-ts";
+
 import { SubmissionPurchased } from "../../generated/templates/RequestSubmission/RequestSubmission";
 import { SubmissionPurchase } from "../../generated/schema";
 
@@ -7,6 +9,11 @@ export function handleSubmissionPurchased(event: SubmissionPurchased): void {
   const price = event.params.price;
   const purchaseId = `${purchaser.toHex()}-${submission.toHex()}`;
 
+  log.info("handleSubmissionPurchased: {} {}", [
+    submission.toHex(),
+    price.toString(),
+  ]);
+
   let purchase = new SubmissionPurchase(purchaseId);
   purchase.submission = submission.toHex();
   purchase.purchaser = purchaser;
@@ -15,5 +22,8 @@ export function handleSubmissionPurchased(event: SubmissionPurchased): void {
   purchase.blockNumber = event.block.number;
   purchase.blockTimestamp = event.block.timestamp;
   purchase.transactionHash = event.transaction.hash;
+
+  log.info("handleSubmissionPurchased: saving purchase {}", [purchase.id]);
+
   purchase.save();
 }
