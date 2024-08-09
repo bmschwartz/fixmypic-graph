@@ -3,17 +3,19 @@ indexerHints:
   prune: auto
 schema:
   file: ./schema.graphql
+features:
+  - ipfsOnEthereumContracts
 dataSources:
   - kind: ethereum/contract
     name: FixMyPicFactory
     network: zksync-era-testnet
     source:
-      address: "0x4D063526132a04C363684Da5B9B8AffC4Ff7538e"
+      address: "0xa9e6018dCCC40cc30568ea051169512FEb230DeF"
       abi: FixMyPicFactory
       startBlock: 0
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.7
+      apiVersion: 0.0.9
       language: wasm/assemblyscript
       file: ./src/mappings/fixMyPicFactoryMapper.ts
       entities:
@@ -33,9 +35,9 @@ dataSources:
       eventHandlers:
         - event: RequestCommentCreated(indexed address,indexed address,string,indexed address,uint256)
           handler: handleRequestCommentCreated
-        - event: PictureRequestCreated(indexed address,string,string,string,uint256,indexed address,uint256,uint256)
+        - event: PictureRequestCreated(indexed address,string,uint256,indexed address,uint256,uint256)
           handler: handlePictureRequestCreated
-        - event: RequestSubmissionCreated(indexed address,indexed address,string,uint256,string,string,string,indexed address,uint256)
+        - event: RequestSubmissionCreated(indexed address,indexed address,string,uint256,indexed address,uint256)
           handler: handleRequestSubmissionCreated
         - event: SubmissionPurchased(indexed address,indexed address,uint256,uint256)
           handler: handleSubmissionPurchased
