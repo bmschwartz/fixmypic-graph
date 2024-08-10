@@ -22,6 +22,8 @@ export function handleRequestCommentCreated(
   event: RequestCommentCreated
 ): void {
   const commentAddress = event.params.comment;
+  const ipfsHash = event.params.ipfsHash;
+
   let comment = new RequestComment(commentAddress.toHex());
 
   comment.address = commentAddress;
@@ -31,9 +33,11 @@ export function handleRequestCommentCreated(
   comment.blockNumber = event.block.number;
   comment.blockTimestamp = event.block.timestamp;
   comment.transactionHash = event.transaction.hash;
+  comment.metadata = ipfsHash;
 
   // Spawn the RequestCommentMetadata file data source
-  RequestCommentMetadataTemplate.create(event.params.ipfsHash);
+  log.info("Creating comment metadata: {}", [ipfsHash]);
+  RequestCommentMetadataTemplate.create(ipfsHash);
 
   comment.save();
 }
@@ -43,6 +47,8 @@ export function handlePictureRequestCreated(
   event: PictureRequestCreated
 ): void {
   const requestAddress = event.params.request;
+  const ipfsHash = event.params.ipfsHash;
+
   let request = new PictureRequest(requestAddress.toHex());
 
   request.address = requestAddress;
@@ -53,9 +59,10 @@ export function handlePictureRequestCreated(
   request.blockNumber = event.block.number;
   request.blockTimestamp = event.block.timestamp;
   request.transactionHash = event.transaction.hash;
+  request.metadata = ipfsHash;
 
   // Spawn the PictureRequestMetadata file data source
-  PictureRequestMetadataTemplate.create(event.params.ipfsHash);
+  PictureRequestMetadataTemplate.create(ipfsHash);
 
   request.save();
 }
@@ -65,6 +72,8 @@ export function handleRequestSubmissionCreated(
   event: RequestSubmissionCreated
 ): void {
   const submissionAddress = event.params.submission;
+  const ipfsHash = event.params.ipfsHash;
+
   let submission = new RequestSubmission(submissionAddress.toHex());
 
   submission.address = submissionAddress;
@@ -75,9 +84,10 @@ export function handleRequestSubmissionCreated(
   submission.blockNumber = event.block.number;
   submission.blockTimestamp = event.block.timestamp;
   submission.transactionHash = event.transaction.hash;
+  submission.metadata = ipfsHash;
 
   // Spawn the RequestSubmissionMetadata file data source
-  RequestSubmissionMetadataTemplate.create(event.params.ipfsHash);
+  RequestSubmissionMetadataTemplate.create(ipfsHash);
 
   submission.save();
 }
