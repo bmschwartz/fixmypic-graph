@@ -21,9 +21,6 @@ dataSources:
         - PictureRequest
         - RequestSubmission
         - SubmissionPurchase
-        - PictureRequestMetadata
-        - RequestSubmissionMetadata
-        - RequestCommentMetadata
       abis:
         - name: FixMyPicFactory
           file: ./abis/FixMyPicFactory.json
