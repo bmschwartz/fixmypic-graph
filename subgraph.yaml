@@ -6,9 +6,9 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: FixMyPicFactory
-    network: zksync-era-testnet
+    network: zksync-era-sepolia
     source:
-      address: "0x60Aa68f9D0D736B9a0a716d04323Ba3b22602840"
+      address: "0x1f998995E9ef94f82f45E9dDeD0fb13380C173C0"
       abi: FixMyPicFactory
       startBlock: 0
     mapping:
