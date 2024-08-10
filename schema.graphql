@@ -1,13 +1,11 @@
 type PictureRequest @entity {
   id: ID!
   address: Bytes!
-  title: String!
-  description: String!
-  imageId: String!
   budget: BigInt!
   creator: Bytes!
   createdAt: BigInt!
   expiresAt: BigInt!
+  metadata: PictureRequestMetadata @link
   comments: [RequestComment!]! @derivedFrom(field: "request")
   submissions: [RequestSubmission!]! @derivedFrom(field: "request")
   blockNumber: BigInt!
@@ -15,16 +13,11 @@ type PictureRequest @entity {
   transactionHash: Bytes!
 }
 
-type RequestComment @entity {
-  id: ID!
-  address: Bytes!
-  request: PictureRequest!
-  commenter: Bytes!
-  text: String!
-  createdAt: BigInt!
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
+type PictureRequestMetadata @entity {
+  id: ID!  # Use the IPFS hash as the ID
+  title: String!
+  description: String!
+  imageId: String!
 }
 
 type RequestSubmission @entity {
@@ -33,15 +26,37 @@ type RequestSubmission @entity {
   request: PictureRequest!
   submitter: Bytes!
   price: BigInt!
-  description: String!
   createdAt: BigInt!
-  freeImageId: String!
-  encryptedImageId: String!
-  watermarkedImageId: String!
+  metadata: RequestSubmissionMetadata @link
   purchases: [SubmissionPurchase!]! @derivedFrom(field: "submission")
   blockNumber: BigInt!
   blockTimestamp: BigInt!
   transactionHash: Bytes!
+}
+
+type RequestSubmissionMetadata @entity {
+  id: ID!  # Use the IPFS hash as the ID
+  description: String!
+  freeImageId: String!
+  encryptedImageId: String!
+  watermarkedImageId: String!
+}
+
+type RequestComment @entity {
+  id: ID!
+  address: Bytes!
+  request: PictureRequest!
+  commenter: Bytes!
+  createdAt: BigInt!
+  metadata: RequestCommentMetadata @link
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type RequestCommentMetadata @entity {
+  id: ID!  # Use the IPFS hash as the ID
+  text: String!
 }
 
 type SubmissionPurchase @entity {

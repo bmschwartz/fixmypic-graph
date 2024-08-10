@@ -1,4 +1,4 @@
-import { log, ipfs, json, JSONValue, TypedMap } from "@graphprotocol/graph-ts";
+import { log } from "@graphprotocol/graph-ts";
 import {
   RequestCommentCreated,
   PictureRequestCreated,
@@ -11,38 +11,11 @@ import {
   RequestSubmission,
   SubmissionPurchase,
 } from "../../generated/schema";
-
-type IPFSData = TypedMap<string, JSONValue>;
-const toString = (value: JSONValue): string => value.toString();
-
-// Helper function to fetch and parse IPFS data
-function fetchIPFSData(ipfsHash: string): IPFSData | null {
-  log.info("Fetching data from IPFS: {}", [ipfsHash]);
-  const data = ipfs.cat(ipfsHash);
-
-  if (data) {
-    log.info("Fetched data from IPFS: {}", [data.toString()]);
-    return json.fromBytes(data).toObject();
-  }
-
-  log.info("Failed to fetch data from IPFS: {}", [ipfsHash]);
-  return null;
-}
-
-function assignValue<T>(
-  jsonData: IPFSData | null,
-  key: string,
-  fallback: T,
-  transform: (value: JSONValue) => T
-): T {
-  if (jsonData && jsonData.isSet(key)) {
-    const value = jsonData.get(key);
-    if (value !== null) {
-      return transform(value);
-    }
-  }
-  return fallback;
-}
+import {
+  PictureRequestMetadata as PictureRequestMetadataTemplate,
+  RequestSubmissionMetadata as RequestSubmissionMetadataTemplate,
+  RequestCommentMetadata as RequestCommentMetadataTemplate,
+} from "../../generated/templates";
 
 // Handle RequestCommentCreated event
 export function handleRequestCommentCreated(
@@ -59,13 +32,8 @@ export function handleRequestCommentCreated(
   comment.blockTimestamp = event.block.timestamp;
   comment.transactionHash = event.transaction.hash;
 
-  const jsonData = fetchIPFSData(event.params.ipfsHash);
-  comment.text = assignValue(
-    jsonData,
-    "text",
-    "No comment available",
-    toString
-  );
+  // Spawn the RequestCommentMetadata file data source
+  RequestCommentMetadataTemplate.create(event.params.ipfsHash);
 
   comment.save();
 }
@@ -86,20 +54,8 @@ export function handlePictureRequestCreated(
   request.blockTimestamp = event.block.timestamp;
   request.transactionHash = event.transaction.hash;
 
-  const jsonData = fetchIPFSData(event.params.ipfsHash);
-  request.title = assignValue(jsonData, "title", "Untitled Request", toString);
-  request.description = assignValue(
-    jsonData,
-    "description",
-    "No description available",
-    toString
-  );
-  request.imageId = assignValue(
-    jsonData,
-    "imageId",
-    "default-image-id",
-    toString
-  );
+  // Spawn the PictureRequestMetadata file data source
+  PictureRequestMetadataTemplate.create(event.params.ipfsHash);
 
   request.save();
 }
@@ -120,31 +76,8 @@ export function handleRequestSubmissionCreated(
   submission.blockTimestamp = event.block.timestamp;
   submission.transactionHash = event.transaction.hash;
 
-  const jsonData = fetchIPFSData(event.params.ipfsHash);
-  submission.description = assignValue(
-    jsonData,
-    "description",
-    "No description provided",
-    toString
-  );
-  submission.freeImageId = assignValue(
-    jsonData,
-    "freeImageId",
-    "default-free-image-id",
-    toString
-  );
-  submission.encryptedImageId = assignValue(
-    jsonData,
-    "encryptedImageId",
-    "default-encrypted-image-id",
-    toString
-  );
-  submission.watermarkedImageId = assignValue(
-    jsonData,
-    "watermarkedImageId",
-    "default-watermarked-image-id",
-    toString
-  );
+  // Spawn the RequestSubmissionMetadata file data source
+  RequestSubmissionMetadataTemplate.create(event.params.ipfsHash);
 
   submission.save();
 }
