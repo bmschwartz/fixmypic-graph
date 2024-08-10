@@ -5,7 +5,7 @@ type PictureRequest @entity {
   creator: Bytes!
   createdAt: BigInt!
   expiresAt: BigInt!
-  metadata: PictureRequestMetadata @link
+  metadata: PictureRequestMetadata
   comments: [RequestComment!]! @derivedFrom(field: "request")
   submissions: [RequestSubmission!]! @derivedFrom(field: "request")
   blockNumber: BigInt!
@@ -27,7 +27,7 @@ type RequestSubmission @entity {
   submitter: Bytes!
   price: BigInt!
   createdAt: BigInt!
-  metadata: RequestSubmissionMetadata @link
+  metadata: RequestSubmissionMetadata
   purchases: [SubmissionPurchase!]! @derivedFrom(field: "submission")
   blockNumber: BigInt!
   blockTimestamp: BigInt!
@@ -48,7 +48,7 @@ type RequestComment @entity {
   request: PictureRequest!
   commenter: Bytes!
   createdAt: BigInt!
-  metadata: RequestCommentMetadata @link
+  metadata: RequestCommentMetadata
   blockNumber: BigInt!
   blockTimestamp: BigInt!
   transactionHash: Bytes!
