@@ -1,14 +1,14 @@
 {
   "zksync-era-testnet": {
     "FixMyPicFactory": {
-      "address": "0x0a67078A35745947A37A552174aFe724D8180c25",
+      "address": "0x56DD798Fa6934E3133b0b78A47B41E07ef1c9114",
       "startBlock": 0
     }
   },
   "zksync-era-sepolia": {
     "FixMyPicFactory": {
-      "address": "0xc21DE9e189b40bfa84D498afbda66A4C130f682B",
-      "startBlock": 3596900
+      "address": "0x82d4520a8667b064642289979357A98Cd6ddF219",
+      "startBlock": 3635202
     }
   }
 }
