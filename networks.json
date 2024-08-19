@@ -7,8 +7,7 @@
   },
   "zksync-era-sepolia": {
     "FixMyPicFactory": {
-      "address": "0x82d4520a8667b064642289979357A98Cd6ddF219",
-      "startBlock": 3635202
+      "address": "0x425f10d7106DC98466BFab3dECAE7eF6417DEcd1"
     }
   }
 }
