@@ -8,7 +8,7 @@ dataSources:
     name: FixMyPicFactory
     network: zksync-era-sepolia
     source:
-      address: "0x425f10d7106DC98466BFab3dECAE7eF6417DEcd1"
+      address: "0x345aEda2119C2D8686E9542CD50163945823c652"
       abi: FixMyPicFactory
       startBlock: 3635202
     mapping:
